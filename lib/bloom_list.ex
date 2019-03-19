@@ -25,13 +25,13 @@ defmodule BloomList do
     end
   end
 
-  def start_link(mod, options) do
+  def start_link(mod, args, options) do
     name = Keyword.fetch!(options, :name)
-    GenServer.start_link(__MODULE__, {mod, options}, name: name)
+    GenServer.start_link(__MODULE__, {mod, options, args}, name: name)
   end
 
-  def reinit_bloom_data(bloom_name) do
-    GenServer.call(bloom_name, :reinit_bloom_data)
+  def reinit_bloom_data(bloom_name, data_list) do
+    GenServer.call(bloom_name, {:reinit_bloom_data, data_list})
   end
 
   def member?(bloom_name, key) do
@@ -55,12 +55,12 @@ defmodule BloomList do
     GenServer.call(bloom_name, {:delete, key})
   end
 
-  def init({mod, options}) do
+  def init({mod, options, args}) do
     bloom_name = Keyword.fetch!(options, :name)
     bloom_options = Keyword.get(options, :bloom_options, [])
     bloom_ets = generate_ets_table_name(bloom_name)
     :ets.new(bloom_ets, [:named_table, :set, :public, {:read_concurrency, true}])
-    {data_list, custom_state} = mod.init_bloom_data()
+    {data_list, custom_state} = mod.init_bloom_data(args)
 
     bloom =
       bloom_options
@@ -80,11 +80,11 @@ defmodule BloomList do
   end
 
   def handle_call(
-        :reinit_bloom_data,
+        {:reinit_bloom_data, data_list},
         _from,
         %{bloom_ets: bloom_ets, mod: mod, bloom_options: bloom_options} = state
       ) do
-    {data_list, custom_state} = mod.handle_reinit_bloom_data()
+    {data_list, custom_state} = mod.handle_reinit_bloom_data(data_list)
 
     bloom =
       bloom_options
@@ -144,9 +144,9 @@ defmodule BloomList do
 
   @callback handle_maybe_exist(any, any) :: boolean()
 
-  @callback init_bloom_data :: {[any], any}
+  @callback init_bloom_data([any]) :: {[any], any}
 
-  @callback handle_reinit_bloom_data :: {[any], any}
+  @callback handle_reinit_bloom_data([any]) :: {[any], any}
 
   @callback handle_add(any, any) :: any
 

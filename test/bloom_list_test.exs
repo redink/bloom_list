@@ -18,9 +18,11 @@ defmodule BloomListTest do
 
   test "test whitelist" do
     {:ok, _} = WhiteList.start_link()
+
     for i <- 1..1000 do
       assert WhiteList.member?(i)
     end
+
     assert not WhiteList.member?(:a)
     assert not WhiteList.sync_member?(:a)
   end

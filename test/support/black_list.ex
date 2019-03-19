@@ -4,14 +4,14 @@ defmodule BloomList.Test.BlackList do
   use BloomList
 
   def start_link() do
-    BloomList.start_link(__MODULE__,
+    BloomList.start_link(__MODULE__, nil,
       name: __MODULE__,
       bloom_options: [capacity: 2000, error: 0.7]
     )
   end
 
-  def reinit do
-    BloomList.reinit_bloom_data(__MODULE__)
+  def reinit(data_list \\ []) do
+    BloomList.reinit_bloom_data(__MODULE__, data_list)
   end
 
   def add(key) do
@@ -27,14 +27,18 @@ defmodule BloomList.Test.BlackList do
   end
 
   # callback
-  def init_bloom_data() do
+  def init_bloom_data(_) do
     data_list = [1, 2, 3, 4, 5]
     {data_list, %{data_list: data_list}}
   end
 
   # callback
-  def handle_reinit_bloom_data() do
+  def handle_reinit_bloom_data([]) do
     data_list = [2, 3, 4, 5, 6, 7]
+    {data_list, %{data_list: data_list}}
+  end
+
+  def handle_reinit_bloom_data(data_list) do
     {data_list, %{data_list: data_list}}
   end
 
