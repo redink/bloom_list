@@ -18,6 +18,10 @@ defmodule BloomList.Test.BlackList do
     BloomList.add(__MODULE__, key)
   end
 
+  def add_list(key_list) do
+    BloomList.add_list(__MODULE__, key_list)
+  end
+
   def delete(key) do
     BloomList.delete(__MODULE__, key)
   end
@@ -53,8 +57,13 @@ defmodule BloomList.Test.BlackList do
   end
 
   # callback
-  def handle_add(key, %{data_list: data_list} = state) do
+  def handle_add_single(key, %{data_list: data_list} = state) do
     %{state | data_list: [key | data_list]}
+  end
+
+  # callback
+  def handle_add_list(key_list, %{data_list: data_list} = state) do
+    %{state | data_list: key_list ++ data_list}
   end
 
   # __end_of_module__

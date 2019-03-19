@@ -14,6 +14,7 @@ defmodule BloomListTest do
     assert not BlackList.member?(6)
     :ok = BlackList.reinit()
     assert not BlackList.member?(1)
+    :ok = BlackList.add_list([8, 9])
   end
 
   test "test whitelist" do

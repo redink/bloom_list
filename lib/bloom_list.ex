@@ -13,7 +13,11 @@ defmodule BloomList do
         true
       end
 
-      def handle_add(_, state) do
+      def handle_add_single(_, state) do
+        state
+      end
+
+      def handle_add_list(_, state) do
         state
       end
 
@@ -21,7 +25,10 @@ defmodule BloomList do
         state
       end
 
-      defoverridable handle_maybe_exist: 2, handle_add: 2, handle_delete: 2
+      defoverridable handle_maybe_exist: 2,
+                     handle_add_single: 2,
+                     handle_add_list: 2,
+                     handle_delete: 2
     end
   end
 
@@ -49,6 +56,10 @@ defmodule BloomList do
 
   def add(bloom_name, key) do
     GenServer.call(bloom_name, {:add, key})
+  end
+
+  def add_list(bloom_name, key_list) do
+    GenServer.call(bloom_name, {:add_list, key_list})
   end
 
   def delete(bloom_name, key) do
@@ -120,7 +131,18 @@ defmodule BloomList do
         %{bloom: bloom, bloom_ets: bloom_ets, custom_state: custom_state, mod: mod} = state
       ) do
     new_bloom = Bloomex.add(bloom, key)
-    new_custom_state = mod.handle_add(key, custom_state)
+    new_custom_state = mod.handle_add_single(key, custom_state)
+    :ets.insert(bloom_ets, [{:bloom, new_bloom}, {:custom_state, new_custom_state}])
+    {:reply, :ok, %{state | bloom: new_bloom, custom_state: new_custom_state}}
+  end
+
+  def handle_call(
+        {:add_list, key_list},
+        _from,
+        %{bloom: bloom, bloom_ets: bloom_ets, custom_state: custom_state, mod: mod} = state
+      ) do
+    new_bloom = batch_add_data(bloom, key_list)
+    new_custom_state = mod.handle_add_list(key_list, custom_state)
     :ets.insert(bloom_ets, [{:bloom, new_bloom}, {:custom_state, new_custom_state}])
     {:reply, :ok, %{state | bloom: new_bloom, custom_state: new_custom_state}}
   end
@@ -148,7 +170,9 @@ defmodule BloomList do
 
   @callback handle_reinit_bloom_data([any]) :: {[any], any}
 
-  @callback handle_add(any, any) :: any
+  @callback handle_add_single(any, any) :: any
+
+  @callback handle_add_list([any], any) :: any
 
   @callback handle_delete(any, any) :: any
 
