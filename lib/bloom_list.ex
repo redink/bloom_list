@@ -9,6 +9,10 @@ defmodule BloomList do
     quote location: :keep do
       @behaviour BloomList
 
+      def handle_reinit_bloom_data(data_list, state) do
+        {data_list, state}
+      end
+
       def handle_maybe_exist(_, _) do
         true
       end
@@ -28,7 +32,8 @@ defmodule BloomList do
       defoverridable handle_maybe_exist: 2,
                      handle_add_single: 2,
                      handle_add_list: 2,
-                     handle_delete: 2
+                     handle_delete: 2,
+                     handle_reinit_bloom_data: 2
     end
   end
 
@@ -93,9 +98,14 @@ defmodule BloomList do
   def handle_call(
         {:reinit_bloom_data, data_list},
         _from,
-        %{bloom_ets: bloom_ets, mod: mod, bloom_options: bloom_options} = state
+        %{
+          bloom_ets: bloom_ets,
+          mod: mod,
+          bloom_options: bloom_options,
+          custom_state: custom_state
+        } = state
       ) do
-    {data_list, custom_state} = mod.handle_reinit_bloom_data(data_list)
+    {data_list, custom_state} = mod.handle_reinit_bloom_data(data_list, custom_state)
 
     bloom =
       bloom_options
@@ -168,7 +178,7 @@ defmodule BloomList do
 
   @callback init_bloom_data([any]) :: {[any], any}
 
-  @callback handle_reinit_bloom_data([any]) :: {[any], any}
+  @callback handle_reinit_bloom_data([any], any) :: {[any], any}
 
   @callback handle_add_single(any, any) :: any
 

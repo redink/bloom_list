@@ -24,8 +24,5 @@ defmodule BloomList.Test.WhiteList do
     {data_list, nil}
   end
 
-  # callback
-  defdelegate handle_reinit_bloom_data(args), to: __MODULE__, as: :init_bloom_data
-
   # __end_of_module__
 end

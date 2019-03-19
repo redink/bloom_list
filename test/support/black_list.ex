@@ -37,12 +37,12 @@ defmodule BloomList.Test.BlackList do
   end
 
   # callback
-  def handle_reinit_bloom_data([]) do
+  def handle_reinit_bloom_data([], _) do
     data_list = [2, 3, 4, 5, 6, 7]
     {data_list, %{data_list: data_list}}
   end
 
-  def handle_reinit_bloom_data(data_list) do
+  def handle_reinit_bloom_data(data_list, _) do
     {data_list, %{data_list: data_list}}
   end
 
