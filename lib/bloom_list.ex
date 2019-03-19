@@ -9,6 +9,16 @@ defmodule BloomList do
     quote location: :keep do
       @behaviour BloomList
 
+      def child_spec(opts) do
+        %{
+          id: __MODULE__,
+          start: {__MODULE__, :start_link, [opts]},
+          type: :worker,
+          restart: :permanent,
+          shutdown: 5000
+        }
+      end
+
       def handle_reinit_bloom_data(data_list, state) do
         {data_list, state}
       end
@@ -33,7 +43,8 @@ defmodule BloomList do
                      handle_add_single: 2,
                      handle_add_list: 2,
                      handle_delete: 2,
-                     handle_reinit_bloom_data: 2
+                     handle_reinit_bloom_data: 2,
+                     child_spec: 1
     end
   end
 
