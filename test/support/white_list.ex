@@ -6,7 +6,7 @@ defmodule BloomList.Test.WhiteList do
   def start_link() do
     BloomList.start_link(__MODULE__, nil,
       name: __MODULE__,
-      bloom_options: [capacity: 2000_000, error: 0.3]
+      bloom_options: [capacity: 2_000_000, error: 0.3]
     )
   end
 
@@ -20,7 +20,7 @@ defmodule BloomList.Test.WhiteList do
 
   # callback
   def init_bloom_data(_) do
-    data_list = for i <- 1..1000_000, do: i
+    data_list = for i <- 1..1_000_000, do: i
     {data_list, nil}
   end
 
