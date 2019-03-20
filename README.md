@@ -1,7 +1,9 @@
 # BloomList
 
+[![Build Status](https://travis-ci.com/redink/bloom_list.svg?branch=master)](https://travis-ci.com/redink/bloom_list)
+
 BloomList built on bloomfilter support callback to double check.
 
-## usage
+## example
 
 See [test example](./test/support/)
