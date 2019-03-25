@@ -1,5 +1,5 @@
 %{
-  "bloomex": {:hex, :bloomex, "1.0.5", "4d4b366412270e1fdb0c93f9f376f93f360b1b18514ac97915b43f9f9c6025f3", [:mix], [], "hexpm"},
+  "bloomex": {:hex, :bloomex, "1.1.0", "2ce14fd4b40b3e6cc6fa68c133fd98f589a83839d4b82135e34cbf852f54ea47", [:mix], [], "hexpm"},
   "bunt": {:hex, :bunt, "0.2.0", "951c6e801e8b1d2cbe58ebbd3e616a869061ddadcc4863d0a2182541acae9a38", [:mix], [], "hexpm"},
   "certifi": {:hex, :certifi, "2.5.1", "867ce347f7c7d78563450a18a6a28a8090331e77fa02380b4a21962a65d36ee5", [:rebar3], [{:parse_trans, "~>3.3", [hex: :parse_trans, repo: "hexpm", optional: false]}], "hexpm"},
   "credo": {:hex, :credo, "1.0.3", "5278e8953f379b41ebe27c75c96d2e154ebc3f75dfe057c8b68c39133c25bb9f", [:mix], [{:bunt, "~> 0.2.0", [hex: :bunt, repo: "hexpm", optional: false]}, {:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: false]}], "hexpm"},
