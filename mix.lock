@@ -1,5 +1,5 @@
 %{
-  "bloomex": {:hex, :bloomex, "1.1.0", "2ce14fd4b40b3e6cc6fa68c133fd98f589a83839d4b82135e34cbf852f54ea47", [:mix], [], "hexpm"},
+  "bloomex": {:hex, :bloomex, "1.2.0", "5ebc0b20b8f8ecb4af08c60e88ca54a857d479c4490cba48bbb3f94840b326bf", [:mix], [{:jason, "~> 1.1", [hex: :jason, repo: "hexpm", optional: false]}], "hexpm"},
   "bunt": {:hex, :bunt, "0.2.0", "951c6e801e8b1d2cbe58ebbd3e616a869061ddadcc4863d0a2182541acae9a38", [:mix], [], "hexpm"},
   "certifi": {:hex, :certifi, "2.5.1", "867ce347f7c7d78563450a18a6a28a8090331e77fa02380b4a21962a65d36ee5", [:rebar3], [{:parse_trans, "~>3.3", [hex: :parse_trans, repo: "hexpm", optional: false]}], "hexpm"},
   "credo": {:hex, :credo, "1.2.1", "6d8e07b31e3937b669e19add0076ee9bd7268cf433878209b631fe38110ea94a", [:mix], [{:bunt, "~> 0.2.0", [hex: :bunt, repo: "hexpm", optional: false]}, {:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: false]}], "hexpm"},
